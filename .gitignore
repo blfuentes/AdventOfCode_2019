@@ -59,3 +59,10 @@ typings/
 
 # next.js build output
 .next
+
+# F# project
+Fsharp/AoC_2019/bin
+Fsharp/AoC_2019/obj
+.vs
+
+*.py

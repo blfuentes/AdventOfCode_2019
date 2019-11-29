@@ -1,0 +1,14 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "noImplicitAny" : true,
+        "strictNullChecks": true,
+        "lib":[
+            "es2020"
+        ],
+        "target": "es2020"
+    },
+    "files":[
+        "day00_part2.ts"
+    ]
+  }
