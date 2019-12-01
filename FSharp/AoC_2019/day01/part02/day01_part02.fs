@@ -8,7 +8,7 @@ let lines = File.ReadLines(filepath)
 let rec getFuel (massInput:int) =
     match massInput with
     | greater when greater > 5 -> (massInput / 3 - 2) + getFuel ((massInput / 3 - 2))
-    | finish -> 0
+    | _ -> 0
 
 let displayValue =
     lines
