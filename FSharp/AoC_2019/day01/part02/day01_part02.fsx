@@ -5,23 +5,12 @@ let filepath = __SOURCE_DIRECTORY__ + @"../../day01_input.txt"
 let lines = File.ReadLines(filepath)
 
 let rec getFuel (massInput:int) =
-    match massInput with
-    | _ when massInput > 5 -> (massInput / 3 - 2) + getFuel ((massInput / 3 - 2))
+    match (massInput / 3 - 2) with
+    | validmass when validmass >= 0 -> validmass + getFuel (validmass)
     | _ -> 0
-
-// detailed
-//let rec getFuel (massInput:int) =
-//    match massInput with
-//    | _contiue when _contiue > 5 -> 
-//        let result = (massInput / 3 - 2)
-//        result + getFuel(result)
-//    | _ -> 0
 
 let displayValue =
     lines
-        |> Seq.map (fun mass -> getFuel(int mass))
-        |> Seq.sum 
-
-
+        |> Seq.sumBy (fun mass -> getFuel(int mass))
 
 displayValue
