@@ -4,5 +4,12 @@ open System
 
 [<EntryPoint>]
 let main argv =
-    printfn "Hello World from F#!"
+    // DAY 01
+    let resultday01Part1 = day01_part01.displayValue
+    printfn "Final result Day 01 part 1: %i" resultday01Part1
+    let resultday02Part2 = day01_part02.displayValue
+    printfn "Final result Day 01 part 2: %i" resultday02Part2
+
+    //
+    let endprogram = Console.ReadLine()
     0 // return an integer exit code
