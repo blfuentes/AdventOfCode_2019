@@ -10,12 +10,20 @@
     <Compile Include="day00\part01\day00_part01.fs" />
     <None Include="day00\part02\day00_part02.fsx" />
     <Compile Include="day00\part02\day00_part02.fs" />
+    <Content Include="day00\test_input.txt" />
+    <Content Include="day00\day00_input.txt" />
     <Content Include="day01\test_input.txt" />
     <Content Include="day01\day01_input.txt" />
     <None Include="day01\part01\day01_part01.fsx" />
     <None Include="day01\part02\day01_part02.fsx" />
     <Compile Include="day01\part01\day01_part01.fs" />
     <Compile Include="day01\part02\day01_part02.fs" />
+    <None Include="day02\part01\day02_part01.fsx" />
+    <None Include="day02\part02\day02_part02.fsx" />
+    <Compile Include="day02\part01\day02_part01.fs" />
+    <Compile Include="day02\part02\day02_part02.fs" />
+    <Content Include="day02\day02_input.txt" />
+    <Content Include="day02\test_input.txt" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
