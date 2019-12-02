@@ -27,7 +27,7 @@ let printOutput (noum: int, verb: int) =
 
 let displaySolutionMatrix =
     solutionMatrix
-        |> Seq.takeWhile (fun (noum, verb) -> 
+        |> Seq.skipWhile (fun (noum, verb) -> 
             let filepath = __SOURCE_DIRECTORY__ + @"../../day02_input.txt"
             let values = File.ReadAllText(filepath).Split(',')
                             |> Array.map int
@@ -36,15 +36,12 @@ let displaySolutionMatrix =
             Array.set values 1 noum
             Array.set values 2 verb
 
-            if performOperation values = __SOLUTION__ then
-                false
-            else
-                true
+            performOperation values <> __SOLUTION__
         )
-        |> Seq.last
+        |> Seq.head 
 
 let execute =   
     match displaySolutionMatrix with
-        | (noum, verb) -> noum * 100 + verb + 1
+        | (noum, verb) -> noum * 100 + verb
 
 execute
