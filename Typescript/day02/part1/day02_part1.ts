@@ -30,6 +30,7 @@ while (!done && idx < trancheinput.length) {
     resultIdx = trancheinput[idx + 3];
 
     performOperation(opcode, op1Idx, op2Idx, resultIdx);
+    //console.log(`First position in loop ${idx} = ${trancheinput[idx]}`);
     idx += 4;
 }
 
