@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="playground.fsx" />
     <None Include="day00\part01\day00_part01.fsx" />
     <Compile Include="day00\part01\day00_part01.fs" />
     <None Include="day00\part02\day00_part02.fsx" />
