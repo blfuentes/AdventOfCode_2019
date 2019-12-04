@@ -22,6 +22,12 @@ let main argv =
     let resultday03Part2 = day03_part02.execute
     printfn "Final result Day 03 part 2: %i" resultday03Part2
 
+    // DAY 04
+    let resultday04Part1 = day04_part01.execute
+    printfn "Final result Day 04 part 1: %i" resultday04Part1
+    let resultday04Part2 = day04_part02.execute
+    printfn "Final result Day 04 part 2: %i" resultday04Part2
+
     //
     let endprogram = Console.ReadLine()
     0 // return an integer exit code
