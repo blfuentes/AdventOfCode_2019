@@ -28,10 +28,10 @@ let main argv =
     let resultday04Part2 = day04_part02.execute
     printfn "Final result Day 04 part 2: %i" resultday04Part2
 
-    // DAY 04
-    let resultday05Part1 = day05_part01.execute
+    // DAY 05
+    let resultday05Part1 = day05_part01.execute 1
     printfn "Final result Day 05 part 1: %i" resultday05Part1
-    let resultday05Part2 = day05_part02.execute
+    let resultday05Part2 = day05_part02.execute 5
     printfn "Final result Day 05 part 2: %i" resultday05Part2
 
     //
