@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Modules\IntcodeComputerModule.fs" />
     <None Include="playground.fsx" />
     <None Include="day00\part01\day00_part01.fsx" />
     <Compile Include="day00\part01\day00_part01.fs" />
@@ -52,6 +53,14 @@
     <Compile Include="day06\part02\day06_part02.fs" />
     <Content Include="day06\day06_input.txt" />
     <Content Include="day06\test_input.txt" />
+    <None Include="day07\part01\day07_part01.fsx" />
+    <None Include="day07\part02\day07_part02.fsx" />
+    <Compile Include="day07\part01\day07_part01.fs" />
+    <Compile Include="day07\part02\day07_part02.fs" />
+    <Content Include="day07\day07_input.txt" />
+    <Content Include="day07\test_input_01.txt" />
+    <Content Include="day07\test_input_02.txt" />
+    <Content Include="day07\test_input_03.txt" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
