@@ -49,8 +49,8 @@ let main argv =
     // DAY 08
     let resultday08Part1 = day08_part01.execute
     printfn "Final result Day 08 part 1: %i" resultday08Part1
-    let resultday08Part2 = day08_part02.execute
-    printfn "Final result Day 08 part 2: %i" resultday08Part2
+    printfn "Final result Day 08 part 2:" 
+    day08_part02.execute
 
     //
     let endprogram = Console.ReadLine()
