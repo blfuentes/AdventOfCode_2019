@@ -18,7 +18,9 @@ let findFirstColorValue(position: int) =
 let result = 
     let colors = seq {
         for idx in [|0..chunkSize - 1|] do
-            yield (findFirstColorValue idx)
+            match (findFirstColorValue idx) with
+            | 0 -> yield ' '
+            | _ -> yield char 35 
     }
     colors |> Seq.toList
 
@@ -26,4 +28,4 @@ let execute =
     for jdx in [|0..result.Length|] do
         match jdx % width with
         | 0 -> printf "%s" System.Environment.NewLine
-        | _ -> printf "%d" result.[jdx]
+        | _ -> printf "%c" result.[jdx]
