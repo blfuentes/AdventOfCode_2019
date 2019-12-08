@@ -2,7 +2,7 @@
 
 [<AutoOpen>]
 module IntcodeComputerModule = 
-
+    let mutable availableInputs = 2
     let getInput(path: string) =
         System.IO.File.ReadAllText(path).Split(',') |> Array.map int
 
@@ -38,15 +38,22 @@ module IntcodeComputerModule =
                 match (param1Mode, param2Mode) with
                 | (0, 0) -> (values.[idx + 1], 0)
                 | (_, _) -> (0, 0)
-            Array.set values (fst parameters) phase
-            ((false, true), [|idx + 2; currentOutput; input|])
+            
+
+            if availableInputs > 0 then
+                //printfn "VM index %d - Opcode%d used input %d" idx 3 phase
+                availableInputs <- availableInputs - 1
+                Array.set values (fst parameters) phase
+                ((false, true), [|idx + 2; currentOutput; input|])
+            else
+                ((true, true), [|idx; currentOutput; input|])
         | 4 -> // OUTPUT
             let parameters = 
                 match (param1Mode, param2Mode) with
                 | (0, 0) -> (values.[values.[idx + 1]], 0)
                 | (_, _) -> (0, 0)
-            ((true, true), [|idx + 2; fst parameters; input|])
-            //((true, true), [|idx; fst parameters; input|])
+            //printfn "VM index %d - Opcode%d outputs %d" idx 4 (fst parameters)
+            ((false, true), [|idx + 2; fst parameters; input|])
         | 5 -> // JUMP IF TRUE
             let parameters = 
                 match (param1Mode, param2Mode) with
@@ -95,14 +102,14 @@ module IntcodeComputerModule =
             if (fst parameters = snd parameters) then Array.set values values.[idx + 3] 1
             else Array.set values values.[idx + 3] 0
             ((false, true), [|idx + 4; currentOutput; input|]) 
-        | 99 -> ((false, false), [|idx + 3; currentOutput; input|]) // (lastoutput, false)
+        | 99 -> ((false, false), [|idx; currentOutput; input|]) // (lastoutput, false)
         | _ -> ((false, true), [|idx; currentOutput; input|]) // (0, true)
 
 
     let rec getOutput(values: int array, phase:int, input:int, idx: int, currentOutput:int) =
         let opDefinition = values.[idx].ToString().PadLeft(5, '0') |> Seq.toArray |> Array.map string 
+        availableInputs <- 2
         let resultOp = performOperation(values, phase, input, idx, opDefinition, currentOutput)
-
         match resultOp with
         | ((_, true), result) -> getOutput(values, result.[2], input, result.[0], result.[1])
         | ((_, false), result) -> result.[1]
@@ -128,5 +135,6 @@ module IntcodeComputerModule =
         let idx = 0
         getOutput(values, phase, input, idx, 0)  
 
-    let executeWithPhaseLoopMode(values, phase: int, idx:int, input:int) =        
+    let executeWithPhaseLoopMode(values, phase: int, idx:int, input:int, numberOfInputs: int) =    
+        availableInputs <- numberOfInputs
         getOutputPhaseLoopMode(values, phase, input,idx, 0)  
