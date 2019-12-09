@@ -28,6 +28,7 @@ let displaySolutionMatrix =
     solutionMatrix
         |> Seq.skipWhile (fun (noum, verb) -> 
             let filepath = __SOURCE_DIRECTORY__ + @"../../day02_input.txt"
+            //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_yavuz.txt"
             let values = File.ReadAllText(filepath).Split(',')
                             |> Array.map int
             

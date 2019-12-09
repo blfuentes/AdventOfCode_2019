@@ -2,16 +2,17 @@
 
 open System.IO
 
-let filepath = __SOURCE_DIRECTORY__ + @"../../day02_input.txt"
-//let filepath = __SOURCE_DIRECTORY__ + @"../../test_input.txt"
-let values = File.ReadAllText(filepath).Split(',')
-                |> Array.map int
-
-// prepare the tranche input 
-Array.set values 1 12
-Array.set values 2 2
-
 let execute =
+    let filepath = __SOURCE_DIRECTORY__ + @"../../day02_input.txt"
+    //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input.txt"
+    //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_yavuz.txt"
+    let values = File.ReadAllText(filepath).Split(',')
+                    |> Array.map int
+    
+    // prepare the tranche input 
+    Array.set values 1 12
+    Array.set values 2 2
+
     let mutable continueLooping = true
     let mutable idx = 0
     while continueLooping && idx < values.Length do
