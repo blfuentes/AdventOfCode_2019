@@ -75,7 +75,9 @@
     <None Include="day09\part01\day09_part01.fsx" />
     <None Include="day09\part02\day09_part02.fsx" />
     <Content Include="day09\day09_input.txt" />
-    <Content Include="day09\test_input.txt" />
+    <Content Include="day09\test_input_01.txt" />
+    <Content Include="day09\test_input_02.txt" />
+    <Content Include="day09\test_input_03.txt" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
