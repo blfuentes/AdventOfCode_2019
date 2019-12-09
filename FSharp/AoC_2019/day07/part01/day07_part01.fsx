@@ -1,7 +1,6 @@
 ﻿open System.IO
 
-#load @"C:\Users\insan\source\repos\AdventOfCode_2019\FSharp\AoC_2019\Modules\IntcodeComputerModule.fs"
-//#load "C:\dev\AdventOfCode_2019\FSharp\AoC_2019\Modules\IntcodeComputerModule.fs"
+#load @"../../Modules/IntcodeComputerModule.fs"
 open AoC_2019.Modules
 
 let filepath = __SOURCE_DIRECTORY__ + @"../../day07_input.txt"
