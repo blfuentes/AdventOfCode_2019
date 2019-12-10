@@ -83,6 +83,7 @@
     <None Include="day10\part01\day10_part01.fsx" />
     <None Include="day10\part02\day10_part02.fsx" />
     <Content Include="day10\day10_input.txt" />
+    <Content Include="day10\test_input_00.txt" />
     <Content Include="day10\test_input_01.txt" />
     <Content Include="day10\test_input_02.txt" />
     <Content Include="day10\test_input_03.txt" />
