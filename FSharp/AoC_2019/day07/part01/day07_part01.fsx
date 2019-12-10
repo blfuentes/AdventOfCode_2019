@@ -9,8 +9,8 @@ let filepath = __SOURCE_DIRECTORY__ + @"../../day07_input.txt"
 //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_02.txt"
 //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_03.txt"
 
-let values = IntcodeComputerModule.getInput filepath
-let result0 = IntcodeComputerModule.execute(filepath, 5)
+let values = IntcodeComputerModule.getInputBigData filepath
+let result0 = IntcodeComputerModule.execute(filepath, 5I)
 
 
 let distrib e L =
@@ -29,9 +29,9 @@ let rec perms = function
 
 let permutation = 
     let results = 
-        perms [0 .. 4] |> Seq.map
+        perms [0I .. 4I] |> Seq.map
             (fun perm -> 
-                let result1 =  IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[0], 0) 
+                let result1 =  IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[0], 0I) 
                 let result2 = IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[1], result1)
                 let result3 = IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[2], result2)
                 let result4 = IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[3], result3)
@@ -41,22 +41,22 @@ let permutation =
     results
 
 // 4,3,2,1,0
-let result1 =  IntcodeComputerModule.executeWithPhase(filepath, 4, 0) 
-let result2 = IntcodeComputerModule.executeWithPhase(filepath, 3, result1)
-let result3 = IntcodeComputerModule.executeWithPhase(filepath, 2, result2)
-let result4 = IntcodeComputerModule.executeWithPhase(filepath, 1, result3)
-let result5 = IntcodeComputerModule.executeWithPhase(filepath, 0, result4)
+let result1 =  IntcodeComputerModule.executeWithPhase(filepath, 4I, 0I) 
+let result2 = IntcodeComputerModule.executeWithPhase(filepath, 3I, result1)
+let result3 = IntcodeComputerModule.executeWithPhase(filepath, 2I, result2)
+let result4 = IntcodeComputerModule.executeWithPhase(filepath, 1I, result3)
+let result5 = IntcodeComputerModule.executeWithPhase(filepath, 0I, result4)
 
 // 0,1,2,3,4
-let result1 =  IntcodeComputerModule.executeWithPhase(filepath, 0, 0) 
-let result2 = IntcodeComputerModule.executeWithPhase(filepath, 1, result1)
-let result3 = IntcodeComputerModule.executeWithPhase(filepath, 2, result2)
-let result4 = IntcodeComputerModule.executeWithPhase(filepath, 3, result3)
-let result5 = IntcodeComputerModule.executeWithPhase(filepath, 4, result4)
+//let result1 =  IntcodeComputerModule.executeWithPhase(filepath, 0I, 0I) 
+//let result2 = IntcodeComputerModule.executeWithPhase(filepath, 1I, result1)
+//let result3 = IntcodeComputerModule.executeWithPhase(filepath, 2I, result2)
+//let result4 = IntcodeComputerModule.executeWithPhase(filepath, 3I, result3)
+//let result5 = IntcodeComputerModule.executeWithPhase(filepath, 4I, result4)
 
 // 1,0,4,3,2
-let result1 =  IntcodeComputerModule.executeWithPhase(filepath, 1, 0) 
-let result2 = IntcodeComputerModule.executeWithPhase(filepath, 0, result1)
-let result3 = IntcodeComputerModule.executeWithPhase(filepath, 4, result2)
-let result4 = IntcodeComputerModule.executeWithPhase(filepath, 3, result3)
-let result5 = IntcodeComputerModule.executeWithPhase(filepath, 2, result4)
+//let result1 =  IntcodeComputerModule.executeWithPhase(filepath, 1I, 0I) 
+//let result2 = IntcodeComputerModule.executeWithPhase(filepath, 0I, result1)
+//let result3 = IntcodeComputerModule.executeWithPhase(filepath, 4I, result2)
+//let result4 = IntcodeComputerModule.executeWithPhase(filepath, 3I, result3)
+//let result5 = IntcodeComputerModule.executeWithPhase(filepath, 2I, result4)

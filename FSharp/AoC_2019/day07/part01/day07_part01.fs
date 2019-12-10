@@ -20,9 +20,9 @@ let rec perms = function
 
 let permutation = 
     let results = 
-        perms [0 .. 4] |> Seq.map
+        perms [0I .. 4I] |> Seq.map
             (fun perm -> 
-                let result1 =  IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[0], 0) 
+                let result1 =  IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[0], 0I) 
                 let result2 = IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[1], result1)
                 let result3 = IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[2], result2)
                 let result4 = IntcodeComputerModule.executeWithPhase(filepath, (perm |> List.toArray).[3], result3)
