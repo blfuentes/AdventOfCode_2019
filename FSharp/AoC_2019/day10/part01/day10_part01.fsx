@@ -24,31 +24,39 @@ let asteroidsCollection =
     }
 
 let pointInRange(initPoint:int[], endPoint:int[], checkPoint:int[]) =
-    let topLeftPoint =
-        match (initPoint.[0] <= endPoint.[0] && initPoint.[1] <= endPoint.[1]) with
-        | true -> [|initPoint.[0]; initPoint.[1]|]
-        | false -> [|endPoint.[0]; endPoint.[1]|]
+    let (minX, maxX) = 
+        match initPoint.[0] <= endPoint.[0] with
+        | true -> (initPoint.[0], endPoint.[0])
+        | false -> (endPoint.[0], initPoint.[0])
+    let (minY, maxY) = 
+        match initPoint.[1] <= endPoint.[1] with
+        | true -> (initPoint.[1], endPoint.[1])
+        | false -> (endPoint.[1], initPoint.[1])
 
-    let bottomRightPoint =
-        match (initPoint.[0] <= endPoint.[0] && initPoint.[1] <= endPoint.[1]) with
-        | false -> [|initPoint.[0]; initPoint.[1]|]
-        | true -> [|endPoint.[0]; endPoint.[1]|]
-
-    topLeftPoint.[0] <= checkPoint.[0] && checkPoint.[0] <= bottomRightPoint.[0] && topLeftPoint.[1] <= checkPoint.[1] && checkPoint.[1] <= bottomRightPoint.[1]
+    minX <= checkPoint.[0] && checkPoint.[0] <= maxX && minY <= checkPoint.[1] && checkPoint.[1] <= maxY
 
 let notEqual(a:int[], b:int[]) =
     a.[0] <> b.[0] || a.[1] <> b.[1]
 
 let findPossibleBlockers(asteroids:seq<int[]>, initPoint:int[], endPoint:int[]) = 
-    //asteroids |> Seq.filter (fun _a -> pointInRange(initPoint, endPoint, _a) && notEqual(_a, initPoint) && notEqual(_a, endPoint))
+    //asteroids |> Seq.filter (fun _a -> notEqual(_a, initPoint) && notEqual(_a, endPoint))
     asteroids |> Seq.filter (fun _a -> pointInRange(initPoint, endPoint, _a) && notEqual(_a, initPoint) && notEqual(_a, endPoint))
     //asteroidsCollection |> Seq.filter (fun _a -> pointInRange(initPoint, endPoint, _a))
 
 //let isBlocked(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
 //    let collinearity = initPoint.[0] * (midPoint.[1] - endPoint.[1]) + midPoint.[0] * (endPoint.[1] - initPoint.[1]) + endPoint.[0] * (initPoint.[1] - midPoint.[1])
 //    collinearity = 0
+
+let getAngleBetweenPoints(initPoint:int[], endPoint:int[]) =
+    let deltaY = float(endPoint.[1] - initPoint.[1])
+    let deltaX = float(endPoint.[0] - initPoint.[0])
+    System.Math.Atan2(deltaY, deltaX) * 180.0  / System.Math.PI
+
 let isBlocked(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
-    (midPoint.[1] - initPoint.[1]) * (endPoint.[0] - initPoint.[0]) =  (midPoint.[0] - initPoint.[0]) * (endPoint.[1] - initPoint.[1])
+    getAngleBetweenPoints(initPoint, endPoint) = getAngleBetweenPoints(initPoint, midPoint)
+    //(midPoint.[1] - initPoint.[1]) * (endPoint.[0] - initPoint.[0]) =  (midPoint.[0] - initPoint.[0]) * (endPoint.[1] - initPoint.[1])
+
+
 
 let numberOfPoints = asteroidsCollection |> Seq.toList |> List.length
 
@@ -69,7 +77,7 @@ let pointsWithCollisions =
 
 let calculate = 
     let filepath = __SOURCE_DIRECTORY__ + @"../../day10_input.txt"
-    //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_01.txt"
+    //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_05.txt"
     let values = File.ReadAllLines(filepath)|> Array.map (fun line -> line.ToCharArray())
 
     let width = values.[0].Length - 1
@@ -105,14 +113,33 @@ let calculate =
     let converted =
         pointsDictionary
         |> Seq.map (fun (KeyValue(k,v)) -> (k, v))
-    converted |> Seq.iter (fun elem -> printfn "%A - %d" (fst elem) (snd elem))
+    //converted |> Seq.iter (fun elem -> printfn "%A - %d" (fst elem) (snd elem))
     converted |> Seq.maxBy (fun x -> snd x)
  
 
 //
-findPossibleBlockers(asteroidsCollection |> Seq.item(4), asteroidsCollection |> Seq.item(9))
+findPossibleBlockers(asteroidsCollection, asteroidsCollection |> Seq.item(1), asteroidsCollection |> Seq.item(7))
 findPossibleBlockers(asteroidsCollection |> Seq.item(9), asteroidsCollection |> Seq.item(4))
 let bloquers = findPossibleBlockers(asteroidsCollection |> Seq.item(0), asteroidsCollection |> Seq.item(36))
+
+let initPoint = [| 0; 0|]
+let midPoint = [| 1; 1 |]
+let endPoint = [| 2; 2|]
+let containsPositiv = ()
+
+let initPoint = [| 2; 2|]
+let midPoint = [| 1; 1 |]
+let endPoint = [| 0; 0|]
+let containsPositiv = (endPoint.[0] - initPoint.[0]) > (midPoint.[0] - initPoint.[0])
+
+getAngleBetweenPoints([|0; 0|], [|1; 0|])
+getAngleBetweenPoints([|0; 0|], [|1; 1|])
+getAngleBetweenPoints([|0; 0|], [|0; -1|])
+getAngleBetweenPoints([|0; 0|], [|-1; 0|])
+getAngleBetweenPoints([|0; 0|], [|0; 1|])
+
+getAngleBetweenPoints([|0; 1|], [|3; 1|])
+
 isBlocked(asteroidsCollection |> Seq.item(0), asteroidsCollection |> Seq.item(8), asteroidsCollection |> Seq.item(4))
 isBlocked(asteroidsCollection |> Seq.item(0), asteroidsCollection |> Seq.item(8), asteroidsCollection |> Seq.item(4))
 isBlocked(asteroidsCollection |> Seq.item(8), asteroidsCollection |> Seq.item(0), asteroidsCollection |> Seq.item(4))

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Modules\AsteroidStationModule.fs" />
     <Compile Include="Modules\IntcodeComputerModule.fs" />
     <None Include="playground.fsx" />
     <None Include="day00\part01\day00_part01.fsx" />
