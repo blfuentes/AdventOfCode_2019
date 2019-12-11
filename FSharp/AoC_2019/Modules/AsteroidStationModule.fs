@@ -28,6 +28,16 @@ module AsteroidStationModule =
         let deltaX = float(endPoint.[0] - initPoint.[0])
         System.Math.Atan2(deltaY, deltaX) * 180.0  / System.Math.PI
     
-    let isBlocked(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
-        //getAngleBetweenPoints(initPoint, endPoint) = getAngleBetweenPoints(initPoint, midPoint)
+    let getAngle360BetweenPoints(initPoint:int[], endPoint:int[]) =
+        let deltaY = float(endPoint.[1] - initPoint.[1])
+        let deltaX = float(endPoint.[0] - initPoint.[0])
+        let angle = System.Math.Atan2(deltaY, deltaX) * 180.0  / System.Math.PI
+        match angle < 0.0 with
+        | true -> 360.0 + angle
+        | false -> angle
+
+    let isBlockedByLine(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
         (midPoint.[1] - initPoint.[1]) * (endPoint.[0] - initPoint.[0]) =  (midPoint.[0] - initPoint.[0]) * (endPoint.[1] - initPoint.[1])
+
+    let isBlockedByAngle(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
+        getAngleBetweenPoints(initPoint, endPoint) = getAngleBetweenPoints(initPoint, midPoint)

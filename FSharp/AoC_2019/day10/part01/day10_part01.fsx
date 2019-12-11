@@ -52,9 +52,11 @@ let getAngleBetweenPoints(initPoint:int[], endPoint:int[]) =
     let deltaX = float(endPoint.[0] - initPoint.[0])
     System.Math.Atan2(deltaY, deltaX) * 180.0  / System.Math.PI
 
-let isBlocked(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
+let isBlockedByLine(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
+    (midPoint.[1] - initPoint.[1]) * (endPoint.[0] - initPoint.[0]) =  (midPoint.[0] - initPoint.[0]) * (endPoint.[1] - initPoint.[1])
+
+let isBlockedByAngle(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
     getAngleBetweenPoints(initPoint, endPoint) = getAngleBetweenPoints(initPoint, midPoint)
-    //(midPoint.[1] - initPoint.[1]) * (endPoint.[0] - initPoint.[0]) =  (midPoint.[0] - initPoint.[0]) * (endPoint.[1] - initPoint.[1])
 
 
 
@@ -100,8 +102,8 @@ let calculate =
             let initPoint = asteroids |> Seq.item(initIdx)
             let endPoint = asteroids |> Seq.item(endIdx)
             let blockers = findPossibleBlockers(asteroids, initPoint, endPoint)
-            let walls = blockers |> Seq.filter (fun midPoint -> isBlocked(initPoint, endPoint, midPoint))
-            let notvalid = blockers |> Seq.exists (fun midPoint -> isBlocked(initPoint, endPoint, midPoint))
+            let walls = blockers |> Seq.filter (fun midPoint -> isBlockedByLine(initPoint, endPoint, midPoint))
+            let notvalid = blockers |> Seq.exists (fun midPoint -> isBlockedByLine(initPoint, endPoint, midPoint))
             let addValue =
                 match notvalid with
                 | true -> 0

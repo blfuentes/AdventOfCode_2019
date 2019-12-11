@@ -29,8 +29,8 @@ let execute =
             let initPoint = asteroids |> Seq.item(initIdx)
             let endPoint = asteroids |> Seq.item(endIdx)
             let blockers = findPossibleBlockers(asteroids, initPoint, endPoint)
-            let walls = blockers |> Seq.filter (fun midPoint -> isBlocked(initPoint, endPoint, midPoint))
-            let notvalid = blockers |> Seq.exists (fun midPoint -> isBlocked(initPoint, endPoint, midPoint))
+            let walls = blockers |> Seq.filter (fun midPoint -> isBlockedByLine(initPoint, endPoint, midPoint))
+            let notvalid = blockers |> Seq.exists (fun midPoint -> isBlockedByLine(initPoint, endPoint, midPoint))
             let addValue =
                 match notvalid with
                 | true -> 0
