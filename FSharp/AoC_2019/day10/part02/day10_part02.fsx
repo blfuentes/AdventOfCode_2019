@@ -64,24 +64,10 @@ let isBlockedByAngle(initPoint:int[], endPoint:int[], midPoint:int[]): bool =
 
 let numberOfPoints = asteroidsCollection |> Seq.toList |> List.length
 
-let pointsWithCollisions = 
-    seq {
-        for initIdx in [|0 .. numberOfPoints - 1|] do
-            for endIdx in [|0 .. numberOfPoints - 1|] do
-                match (initIdx = endIdx) with
-                | false -> ()
-                | true ->
-                    let initPoint = asteroidsCollection |> Seq.item(initIdx)
-                    let endPoint = asteroidsCollection |> Seq.item(endIdx)
-                    let blockers = findPossibleBlockers(asteroidsCollection, initPoint, endPoint)
-                    let valid = blockers |> Seq.filter (fun midPoint -> not (isBlockedByLine(initPoint, endPoint, midPoint))) |> Seq.toList
-                    yield (initPoint, valid.Length)
-    }
-  
-
 let calculate = 
-    let filepath = __SOURCE_DIRECTORY__ + @"../../day10_input.txt"
-    //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_05.txt"
+    //let filepath = __SOURCE_DIRECTORY__ + @"../../day10_input.txt"
+    let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_01.txt"
+    //let filepath = __SOURCE_DIRECTORY__ + @"../../test_input_06.txt"
     let values = File.ReadAllLines(filepath)|> Array.map (fun line -> line.ToCharArray())
 
     let width = values.[0].Length - 1
@@ -96,6 +82,20 @@ let calculate =
                         | _  -> ()
         }
     let numberOfPoints = asteroids |> Seq.toList |> List.length
+    
+    let anglesByPairs = 
+        let pointsWithAngleDictionary = new Dictionary<(int[]*int[]), float>() 
+        for initIdx in [|0 .. numberOfPoints - 1|] do
+            let endIdxs = [|0 .. numberOfPoints - 1|] |> Array.filter (fun x -> x <> initIdx)
+            for endIdx in endIdxs do
+                let initPoint = asteroids |> Seq.item(initIdx)
+                let endPoint = asteroids |> Seq.item(endIdx)
+                pointsWithAngleDictionary.Add((initPoint, endPoint), getAngleBetweenPoints(initPoint, endPoint))
+        pointsWithAngleDictionary
+
+    anglesByPairs |> Seq. iter (fun _a -> printfn "Coordinates: %A - Angle: %f" (_a.Key) (_a.Value))
+    let availableAngles = anglesByPairs.Values |> Seq.distinctBy (fun x -> (x + 90.0) - 360.0)
+
 
     let pointsDictionary = new Dictionary<(int*int), int>()
     for initIdx in [|0 .. numberOfPoints - 1|] do

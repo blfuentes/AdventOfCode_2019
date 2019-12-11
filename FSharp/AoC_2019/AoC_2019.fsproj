@@ -90,6 +90,7 @@
     <Content Include="day10\test_input_03.txt" />
     <Content Include="day10\test_input_04.txt" />
     <Content Include="day10\test_input_05.txt" />
+    <Content Include="day10\test_input_06.txt" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
