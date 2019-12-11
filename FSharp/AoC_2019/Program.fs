@@ -61,7 +61,7 @@ let main argv =
     // DAY 10
     let resultday10Part1 = day10_part01.execute
     printfn "Final result Day 10 part 1: %A" resultday10Part1
-    let resultday10Part2 = day10_part02.execute
+    let resultday10Part2 = day10_part02.execute [|20;19|]
     printfn "Final result Day 10 part 2: %A" resultday10Part2
     //
     let endprogram = Console.ReadLine()
