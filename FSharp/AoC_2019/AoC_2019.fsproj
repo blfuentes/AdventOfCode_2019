@@ -91,6 +91,12 @@
     <Content Include="day10\test_input_04.txt" />
     <Content Include="day10\test_input_05.txt" />
     <Content Include="day10\test_input_06.txt" />
+    <Compile Include="day11\part01\day11_part01.fs" />
+    <Compile Include="day11\part02\day11_part02.fs" />
+    <None Include="day11\part01\day11_part01.fsx" />
+    <None Include="day11\part02\day11_part02.fsx" />
+    <Content Include="day11\day11_input.txt" />
+    <Content Include="day11\test_input.txt" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

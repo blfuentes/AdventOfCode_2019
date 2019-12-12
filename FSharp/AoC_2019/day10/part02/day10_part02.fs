@@ -39,18 +39,26 @@ let execute(basePoint:int[]) =
             pointsWithAngleDictionary.Add(endPoint, getAngleBetweenPointsNormalized(initPoint, endPoint))
         pointsWithAngleDictionary.Values |> Seq.distinct |> Seq.sortBy (fun ang -> ang) 
     
-    let mutable elementsLeft = 1
     let matchedAsteroids = new List<int[]>()
-    let mutable output = 0
-    for astIdx in [1..200] do
-        let angle = Seq.item (astIdx - 1) angles
-        let keys = pointsWithAngleDictionary |> Seq.filter (fun point -> point.Value = angle) |> Seq.map (fun x -> x.Key)
-        let possibleAsteroids = asteroids |> Seq.filter(fun ast -> Seq.contains ast keys && not(Seq.contains ast matchedAsteroids)) 
-        let closestDistance = distanceToInitPointDictionary |> Seq.filter (fun dist -> Seq.contains dist.Key possibleAsteroids) |> Seq.sortBy (fun dist -> dist.Value) |> Seq.head
-        matchedAsteroids.Add(closestDistance.Key)
-        match astIdx with
-        | 200 -> 
-            output <- (closestDistance.Key.[0] * 100 + closestDistance.Key.[1])
-            printfn "Asteroid %d at position %A. Value= %d" astIdx (closestDistance.Key) output
-        | _ -> printfn "Asteroid %d at position %A" astIdx (closestDistance.Key)
-    output  
+    let angle = Seq.item (199) angles
+    let keys = pointsWithAngleDictionary |> Seq.filter (fun point -> point.Value = angle) |> Seq.map (fun x -> x.Key)
+    let possibleAsteroids = asteroids |> Seq.filter(fun ast -> Seq.contains ast keys) 
+    let closestDistance = distanceToInitPointDictionary |> Seq.filter (fun dist -> Seq.contains dist.Key possibleAsteroids) |> Seq.sortBy (fun dist -> dist.Value) |> Seq.head
+    (closestDistance.Key.[0] * 100 + closestDistance.Key.[1])
+
+    // NOT NEEDED
+    //let mutable elementsLeft = 1
+    //let matchedAsteroids = new List<int[]>()
+    //let mutable output = 0
+    //for astIdx in [1..200] do
+    //    let angle = Seq.item (astIdx - 1) angles
+    //    let keys = pointsWithAngleDictionary |> Seq.filter (fun point -> point.Value = angle) |> Seq.map (fun x -> x.Key)
+    //    let possibleAsteroids = asteroids |> Seq.filter(fun ast -> Seq.contains ast keys && not(Seq.contains ast matchedAsteroids)) 
+    //    let closestDistance = distanceToInitPointDictionary |> Seq.filter (fun dist -> Seq.contains dist.Key possibleAsteroids) |> Seq.sortBy (fun dist -> dist.Value) |> Seq.head
+    //    matchedAsteroids.Add(closestDistance.Key)
+    //    match astIdx with
+    //    | 200 -> 
+    //        output <- (closestDistance.Key.[0] * 100 + closestDistance.Key.[1])
+    //        printfn "Asteroid %d at position %A. Value= %d" astIdx (closestDistance.Key) output
+    //    | _ -> printfn "Asteroid %d at position %A" astIdx (closestDistance.Key)
+    //output  
