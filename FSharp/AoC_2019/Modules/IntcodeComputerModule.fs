@@ -157,6 +157,6 @@ module IntcodeComputerModule =
         relativeBase <- 0I
         getOutputBigData(values, input, input, idx, 0I)
 
-    let executeWithPhaseLoopMode(values, phase: bigint, idx:bigint, input:bigint, numberOfInputs: bigint) =    
+    let executeWithPhaseLoopMode(values: Dictionary<bigint, bigint>, phase: bigint, idx:bigint, input:bigint, numberOfInputs: bigint) =    
         availableInputs <- numberOfInputs
         getOutputPhaseLoopMode(values, phase, input,idx, 0I)  
