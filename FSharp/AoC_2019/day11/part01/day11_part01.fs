@@ -3,13 +3,13 @@
 open AoC_2019.Modules
 open System.Collections.Generic
 
-let paintingMap = createPanel 500
+let paintingMap = createPanel(500, 0)
 let paintedPositionMap = new Dictionary<(int * int), int>()
 
 let rec getNextPaintPosition(values: Dictionary<bigint, bigint>, relativeBase: bigint, currentDirection: DirectionEnum, position:int[], inputColor:bigint, idx:bigint, paintedCount: int) =
     // GET COLOR
     let (paintingOutput, (paintingInstructionIdx, paintingNotFinished), paintingRelativeBase)  =  executeBigDataWithMemory(values, relativeBase, idx, inputColor, 1I)
-    
+
     // GET DIRECTION
     let (movementOutput, (movementInstructionIdx, movementNotFinished), movementRelativeBase) =  executeBigDataWithMemory(values, paintingRelativeBase, paintingInstructionIdx, inputColor, 1I)
 
@@ -20,7 +20,7 @@ let rec getNextPaintPosition(values: Dictionary<bigint, bigint>, relativeBase: b
     match alreadyPainted with 
     | false -> paintedPositionMap.Add((position.[0], position.[1]), (int)paintingOutput)
     | _ -> ()
-        
+    
 
     // SET DIRECTION
     let (nextDirection, nextCoord) =

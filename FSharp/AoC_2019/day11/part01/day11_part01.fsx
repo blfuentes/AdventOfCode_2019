@@ -75,10 +75,3 @@ let execute =
     let values = IntcodeComputerModule.getInputBigData filepath
     let paintedPositions = getNextPaintPosition(values, 0I, UP, initialPoint, 0I, 0I, 0)
     paintedPositions
-
-
-let values = IntcodeComputerModule.getInputBigData filepath
-
-//executeBigData(filepath, 0I) 
-executeBigDataWithMemory(values, 0I, 0I, 1I, 1I)
-//executeWithPhaseLoopMode(values, 0I, 0I, 0I, 1I)
