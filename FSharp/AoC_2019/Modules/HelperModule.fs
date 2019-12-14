@@ -2,6 +2,7 @@
 
 open System.Collections.Generic
 open System.Numerics
+open System.Text.RegularExpressions
 
 [<AutoOpen>]
 module HelperModule =
@@ -38,3 +39,27 @@ module HelperModule =
         | LEFT -> (direction, [|position.[0] - 1; position.[1]|])
         | RIGHT -> (direction, [|position.[0] + 1; position.[1]|])
 
+    let (|Regex|_|) pattern input =
+        let m = Regex.Match(input, pattern)
+        if m.Success then Some(List.tail [ for g in m.Groups -> g.Value ])
+        else None
+
+    let distrib e L =
+        let rec aux pre post = 
+            seq {
+                match post with
+                | [] -> yield (L @ [e])
+                | h::t -> yield (List.rev pre @ [e] @ post)
+                          yield! aux (h::pre) t 
+            }
+        aux [] L
+
+    let rec perms = function 
+    | [] -> Seq.singleton []
+    | h::t -> Seq.collect (distrib h) (perms t)
+
+    let tern(x:int, p:int): int =
+        match x with
+        | x when x < p -> 1
+        | x when x > p ->  -1
+        | _ -> 0
