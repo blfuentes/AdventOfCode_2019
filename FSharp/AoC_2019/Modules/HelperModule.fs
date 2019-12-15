@@ -10,6 +10,8 @@ module HelperModule =
 
     let bigint (x:int) = bigint(x)
 
+    //let int (x:bigint) = int(x)
+
     let createPanel(size: int, color: int) =
         let panel = new Dictionary<(int * int), int>()
         for idx in [0 .. size] do

@@ -81,6 +81,7 @@ module IntcodeComputerModule =
         | 4 -> // OUTPUT
             let output = getOperatorValueBigData(values, relativeBase, idx + 1I, param1Mode)
             //printfn "OUTPUT-->opcode= %A op1= %A idx= %A" op output idx
+            //printf "%A," output
             if not loopOutputMode then
                 ((false, true), [|idx + 2I; output; input|], relativeBase)
             else
@@ -140,9 +141,6 @@ module IntcodeComputerModule =
         | ((false, true), result, relBase) -> getOutputBigDataWithMemory(values, relBase, result.[2], input, result.[0], result.[1]) // no pausa + continue
         | ((true, false), result, relBase) -> (result.[1], (result.[0], true), relBase) // pausa + no continuar
         | ((true, true), result, relBase) -> (result.[1], (result.[0], true), relBase) // pausa + continuar
-        //match resultOp with
-        //| ((_, true), result, relBase) -> getOutputBigDataWithMemory(values, relBase, result.[2], input, result.[0], result.[1])
-        //| ((_, false), result, relBase) -> (result.[1], (result.[0], false), relBase)
 
     let rec getOutputPhaseLoopMode(values: Dictionary<bigint, bigint>, relativeBase, phase:bigint, input:bigint, idx: bigint, currentOutput:bigint) =
         let opDefinition = values.[idx].ToString().PadLeft(5, '0') |> Seq.toArray |> Array.map string 
