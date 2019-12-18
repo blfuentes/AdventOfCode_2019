@@ -71,10 +71,7 @@ let calculate(transformations: seq<list<reactElement>*reactElement>, availableOR
     while min < top do
         let midPoint = min + (top - min) / 2I
         let consumedElements = resetAvailableComponents(transformations)
-        let (f, ore) = consumedElements.TryGetValue "ORE"
-        match f with
-        | true -> consumedElements.["ORE"] <- midPoint
-        | false -> consumedElements.Add("ORE", midPoint)
+        consumedElements.["ORE"] <- midPoint
         let checkElement = { amount= 1I; name= "FUEL" }
 
         match isEnough(transformations, consumedElements, checkElement) with

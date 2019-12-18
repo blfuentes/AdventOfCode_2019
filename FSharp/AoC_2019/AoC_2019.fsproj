@@ -111,6 +111,7 @@
     <None Include="day13\part02\day13_part02.fsx" />
     <Content Include="day13\day13_input.txt" />
     <Content Include="day13\test_input.txt" />
+    <None Include="day14\part01\day14_part00.fsx" />
     <Compile Include="day14\part01\day14_part01.fs" />
     <Compile Include="day14\part02\day14_part02.fs" />
     <None Include="day14\part01\day14_part01.fsx" />
@@ -122,6 +123,13 @@
     <Content Include="day14\test_input_03.txt" />
     <Content Include="day14\test_input_04.txt" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
