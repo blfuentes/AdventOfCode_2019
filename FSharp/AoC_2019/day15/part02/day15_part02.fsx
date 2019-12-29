@@ -1,5 +1,7 @@
 ﻿open System.IO
 open System.Collections.Generic
+open System
+open System.Linq
 
 #load @"../../Modules/IntcodeComputerModule.fs"
 open AoC_2019.Modules
@@ -49,18 +51,48 @@ let getPrevPoint(elems: List<(bigint[]*bigint[])>, point: bigint[]) =
     let tmpPoint = elems.Find(fun (c, p) -> c.[0] = point.[0] && c.[1] = point.[1])
     tmpPoint
 
+let maxInt = 2147483647I
+let maxInt_1 = (maxInt - 1I)   
+   
+let setDistance(point: KeyValuePair<(bigint * bigint), bigint[]>, visited:Dictionary<(bigint * bigint), bigint[]>)=
+    let mutable changed = false
+    let ((_x, _y), (_data)) = (point.Key, point.Value)
+    if (_data.[1] = 0I) then
+        for dir in [1I..4I] do
+            let tmpNeighbour = getPoint([|_x; _y|], getMovement(dir))
+            let found, tmpDist = visited.TryGetValue ((tmpNeighbour.[0], tmpNeighbour.[1]))
+            match found with
+            | true ->
+                match tmpDist.[0] + 1I < _data.[0] with
+                | true -> 
+                    visited.[(_x, _y)] <- [|tmpDist.[0] + 1I; _data.[1]|]
+                    changed <- true
+                | false ->
+                    ()
+            | false ->
+                match maxInt < _data.[0] with
+                | true -> 
+                    visited.[(_x, _y)] <- [|tmpDist.[0] + 1I; _data.[1]|]
+                    changed <- true
+                | false ->
+                    ()
+    changed
+
+
+
 let finBSFPath(values: Dictionary<bigint, bigint>, relativeBase: bigint, movInput:bigint, idx:bigint, numberOfInputs: bigint) = 
     let startPoint = [|0; 0|]
     let resultPath = new Queue<int[]>()
     let visitedPoints: List<bigint[]> = new List<bigint[]>()
     resultPath.Enqueue(startPoint)
-    let currentPoint = [|0I; 0I; 0I; 0I |]
-    visitedPoints.Add([|currentPoint.[0]; currentPoint.[1]; currentPoint.[2]|])
+    let currentPoint = [|0I; 0I; -1I; -1I; maxInt_1; 0I |]
+    visitedPoints.Add([|currentPoint.[0]; currentPoint.[1]; currentPoint.[2]; currentPoint.[3]; currentPoint.[4]; currentPoint.[5]|])
     let paramInputs = [|relativeBase; idx; numberOfInputs|]
     let mutable continueLooping = true
     let chainPoints = new List<(bigint[]*bigint[])>()
     chainPoints.Add([|currentPoint.[0]; currentPoint.[1]; currentPoint.[2]|], [|0I; 0I; -1I; -1I|])
     let oxygenPoint = [|-5000I; -5000I|]
+    let mutable maxDistance = 0I
     while continueLooping do
         let movInput = currentPoint.[2] + 1I
         if movInput <= 4I then
@@ -69,27 +101,32 @@ let finBSFPath(values: Dictionary<bigint, bigint>, relativeBase: bigint, movInpu
                 let (output, (idx, notfinished), relativeBase)  =  executeBigDataWithMemory(values, paramInputs.[0], paramInputs.[1], movInput, paramInputs.[2])
                 match getStatus(output) with
                 | WALL -> 
-                    //printfn "Found Wall at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(movInput))
-                    visitedPoints.Add([|neighbourPoint.[0]; neighbourPoint.[1]; 0I; getBackMov(movInput)|])
+                    printfn "Found Wall at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(movInput))
+                    visitedPoints.Add([|neighbourPoint.[0]; neighbourPoint.[1]; 0I; getBackMov(movInput); maxInt_1; 1I|])
                     Array.set currentPoint 2 movInput
                     ()
                 | WAY -> 
                     Array.set paramInputs 0 relativeBase
                     Array.set paramInputs 1 idx
                     Array.set paramInputs 2 numberOfInputs
-                    //printfn "Found WAY at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(movInput))
+                    printfn "Found WAY at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(movInput))
                     chainPoints.Add([|neighbourPoint.[0]; neighbourPoint.[1]; movInput|], [|currentPoint.[0]; currentPoint.[1]; currentPoint.[2]|])
-                    visitedPoints.Add([|neighbourPoint.[0]; neighbourPoint.[1]; movInput; getBackMov(movInput)|])
+                    visitedPoints.Add([|neighbourPoint.[0]; neighbourPoint.[1]; movInput; getBackMov(movInput); maxInt_1; 0I|])
                     Array.set currentPoint 0 neighbourPoint.[0]
                     Array.set currentPoint 1 neighbourPoint.[1]
                     Array.set currentPoint 2 0I
                     Array.set currentPoint 3 0I
                 | OXYGEN -> 
-                    //printfn "Found Oxygen at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(movInput))
+                    printfn "Found Oxygen at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(movInput))
                     chainPoints.Add([|neighbourPoint.[0]; neighbourPoint.[1]; movInput|], [|currentPoint.[0]; currentPoint.[1]; currentPoint.[2]|])
-                    continueLooping <- false
+                    continueLooping <- notfinished
                     Array.set oxygenPoint 0 neighbourPoint.[0]
                     Array.set oxygenPoint 1 neighbourPoint.[1]
+                    visitedPoints.Add([|neighbourPoint.[0]; neighbourPoint.[1]; movInput; getBackMov(movInput); 0I; 1I|])
+                    Array.set currentPoint 0 neighbourPoint.[0]
+                    Array.set currentPoint 1 neighbourPoint.[1]
+                    Array.set currentPoint 2 0I
+                    Array.set currentPoint 3 0I
                     ()
                 | _ ->
                     ()
@@ -107,7 +144,7 @@ let finBSFPath(values: Dictionary<bigint, bigint>, relativeBase: bigint, movInpu
                     Array.set paramInputs 0 relativeBase
                     Array.set paramInputs 1 idx
                     Array.set paramInputs 2 numberOfInputs
-                    //printfn "BACKWARD at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(prevMov))
+                    printfn "BACKWARD at %A, %A - %A" neighbourPoint.[0] neighbourPoint.[1] (getMovement(prevMov))
                     let prevPoint2 = visitedPoints.Find(fun x -> x.[0] = neighbourPoint.[0] && x.[1] = neighbourPoint.[1])
                     Array.set currentPoint 0 neighbourPoint.[0]
                     Array.set currentPoint 1 neighbourPoint.[1]
@@ -119,8 +156,22 @@ let finBSFPath(values: Dictionary<bigint, bigint>, relativeBase: bigint, movInpu
                     ()
             else
                 continueLooping <- false
+
+                let mutable updateDistance = true
+                let dictWithDistances = new Dictionary<(bigint * bigint), bigint[]>()
+                visitedPoints |> Seq.toList |> List.iter(fun x -> dictWithDistances.Add((x.[0], x.[1]), [|x.[4]; x.[5]|]))
+                let pointsCount = dictWithDistances.Values.Count - 1
+                while updateDistance do
+                    updateDistance <- false
+                    for idx in [0..pointsCount] do
+                        let point = dictWithDistances.ElementAt(idx)
+                        let distanceUpdated = setDistance(point, dictWithDistances)
+                        updateDistance <- updateDistance || distanceUpdated
+
+                let maxD = dictWithDistances.Values |> Seq.filter(fun x -> x.[1] = 0I) |> Seq.maxBy(fun x -> x.[0])
+                maxDistance <- maxD.[0]
                 ()
-    (oxygenPoint, chainPoints)
+    (oxygenPoint, chainPoints, maxDistance)
 
 let rec countSteps(oxyPoint:bigint[], chainPoints: List<(bigint[]*bigint[])>) =
     let (curr, prevPoint) = chainPoints.Find(fun (c, p) -> c.[0] = oxyPoint.[0] && c.[1] = oxyPoint.[1])
@@ -128,6 +179,7 @@ let rec countSteps(oxyPoint:bigint[], chainPoints: List<(bigint[]*bigint[])>) =
         1
     else
         1 + countSteps(prevPoint, chainPoints) 
+
 
 let execute =
     let filepath = __SOURCE_DIRECTORY__ + @"../../day15_input.txt"
@@ -139,6 +191,6 @@ let execute =
     let idx = 0I
     let numInputs = 1I
 
-    let (oxygenPoint, chainPoints) = finBSFPath(values, relBase, movInput, idx, numInputs)
-    countSteps(oxygenPoint, chainPoints) - 1
+    let (oxygenPoint, chainPoints, maxDistance) = finBSFPath(values, relBase, movInput, idx, numInputs)
+    maxDistance
 
