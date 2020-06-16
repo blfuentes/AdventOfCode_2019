@@ -33,4 +33,5 @@ let rec convertInput(input:int[], basePattern: int[], numberOfPhases: int, curre
     | true -> input |> Array.take(8) |> Array.map string |> String.concat ""
     | false -> convertInput(calculateInput(input, basePattern), basePattern, numberOfPhases, currentPhase + 1)
 
-convertInput(input, basePattern, 100, 0)
+input.Length
+(input.Length, convertInput(input, basePattern, 100, 0))
