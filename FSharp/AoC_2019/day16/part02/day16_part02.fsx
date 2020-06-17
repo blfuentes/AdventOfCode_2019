@@ -12,13 +12,9 @@ let basePattern = [| 0; 1; 0; -1 |]
 
 let calculateInput(input:int[]) =
     let reversed = input |> Array.rev
-    let result = seq {
-        yield reversed.[0]
-        for x in [ 1 .. input.Length - 1 ] do
-            reversed.[x] <- Math.Abs((reversed.[x - 1] + reversed.[x]) % 10)
-            yield reversed.[x]
-        }
-    result |> Seq.toArray |> Array.rev
+    for x in [ 1 .. input.Length - 1 ] do
+        reversed.[x] <- Math.Abs((reversed.[x - 1] + reversed.[x]) % 10)
+    reversed |> Array.rev
 
 let rec convertInput(input:int[], offSet: int, numberOfPhases: int, currentPhase: int) =
     match currentPhase = numberOfPhases with
@@ -28,5 +24,5 @@ let rec convertInput(input:int[], offSet: int, numberOfPhases: int, currentPhase
 let solution =     
     let realInput = input |> Array.replicate 10000 |> Array.concat
     let offSet = realInput |> Array.take(7) |> Array.map string |> String.concat "" |> int    
-    (realInput, realInput.Length, offSet, (realInput |> Array.skip(offSet)).Length)
+    // (realInput, realInput.Length, offSet, (realInput |> Array.skip(offSet)).Length)
     convertInput((realInput |> Array.skip(offSet)), offSet,  100, 0)
